@@ -1,0 +1,87 @@
+import React from 'react'
+import { Row, Col } from 'antd'
+import {Input , Button} from 'antd'
+import TableXY from '../Interpolation/table_x_y'
+import '../Interpolation/interpolation.css'
+import { poly_cal } from '../Compute'
+
+class Polynomial extends React.Component{
+    state = {
+        n: 2,
+        xy: [[],[]],
+        x: '',
+        result: ''
+    }
+
+    ChangeXY = e =>{
+        let arrXY = this.state.xy
+        let index = e.target.name.split("_")
+        arrXY[parseInt(index[0])][parseInt(index[1])] = parseInt(e.target.value)
+        this.setState({xy: arrXY})
+    }
+
+    ChangeX = e =>{
+        this.setState({x: e.target.value})
+    }
+
+    RowAdd = e =>{
+        if(this.state.n < 10){
+            this.setState({n: this.state.n + 1})
+            this.state.xy.push([])
+        }
+    }
+
+    RowReduce = e =>{
+        if(this.state.n > 2){
+            this.setState({n: this.state.n - 1})
+            this.state.xy.pop([])
+        }
+    }
+
+    Cal = e =>{
+        this.setState({result: poly_cal(this.state.xy , this.state.x)})
+    }
+
+
+    render(){
+        return(
+            <div>
+                <Row>
+                    <Col span={24} className="set_head">Polynomial Regression</Col>
+                </Row>
+                <Row className="set_margin">
+                    <Col>
+                        <Button className="set_button" onClick={this.RowReduce}>-</Button>
+                    </Col>
+                    <Col>
+                        <Input className="set_center" disabled="disabled" value={this.state.n.toString()}/>
+                    </Col>
+                    <Col>
+                        <Button className="set_button" onClick={this.RowAdd}>+</Button>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <div className="set_margin_bottom set_center">TableXY</div>
+                        <div className="set_display_x">x</div>
+                        <div className="set_display_x">f(x)</div>
+                        <TableXY n={this.state.n} onChange={this.ChangeXY}/>
+                    </Col>
+                    <Col className="set_margin_left">
+                        <div className="set_margin_bottom">ใส่ค่า X ที่ต้องการ</div>
+                        <div><Input onChange={this.ChangeX} placeholder={"65"} style={{width: "200px"}}/></div>
+                    </Col>
+                    <Col>
+                        <div><Button className="set_cal_ex_spline">Example</Button></div>
+                        <div><Button type="primary" className="set_cal_ex_spline" onClick={this.Cal}>Calculate</Button></div>
+                    </Col>
+                </Row>
+                <div className="set_margin_top">
+                    {this.state.result}
+                </div>
+            </div>
+        );
+    }
+}
+
+export default Polynomial

@@ -1,0 +1,43 @@
+@import '~antd/dist/antd.css';
+
+#components-layout-demo-top-side .logo {
+  float: left;
+  width: 120px;
+  height: 31px;
+  margin: 16px 24px 16px 0;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.ant-row-rtl #components-layout-demo-top-side .logo {
+  float: right;
+  margin: 16px 0 16px 24px;
+}
+
+.site-layout-background {
+  background: #fff;
+}
+
+.set{
+  margin-top: 20px;
+}
+
+.set_result{
+  margin-top: 10px;
+}
+
+.set_head{
+  text-align: center;
+  font-size: 2em;
+  margin-bottom: 30px;
+}
+
+.set_text{
+  font-size: 20px;
+  color: white;
+  padding-left: 10px;
+}
+
+.set_input{
+  margin-bottom: 10px;
+  border-radius: 6px;
+}

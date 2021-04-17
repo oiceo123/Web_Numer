@@ -17,7 +17,10 @@ class Cramer extends React.Component{
         let arrA = this.state.matrix_A
         let index = e.target.name.split('_')
         arrA[parseInt(index[1])][parseInt(index[2])] = e.target.value
-/*         console.log(e.target.value) */
+/*         console.log(e.target)
+        console.log(e.currentTarget)
+        console.log(e.currentTarget.name)
+        console.log(e.currentTarget.value); */
         this.setState({matrix_A: arrA})
     }
 

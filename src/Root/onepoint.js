@@ -2,15 +2,50 @@ import React from 'react';
 import { Input } from 'antd';
 import { Button } from 'antd';
 import { onepointcal } from '../Compute';
-import '../App.css';
+import './root.css';
+
+import apis from '../API/index'
+import Modal_Example from './modal_example'
 
 class Onepoint extends React.Component{
     state = {
-        Equation: '(0.75*x)+1',
-        X: '0',
-        ERROR: '0.000001',
-        result: ''
+        Equation: '',
+        X: '',
+        ERROR: '',
+        result: '',
+        isModalVisible: false,
+        apiData: [],
+        hasData: false
     };
+
+    async getData(){
+        let tempData = null
+        await apis.getRoot().then(res => {tempData = res.data})
+        this.setState({apiData: tempData})
+        this.setState({hasData: true})
+    }
+
+    onClickOk = e =>{
+        this.setState({isModalVisible: false})
+    }
+
+    onClickInsert = e =>{
+        let index = e.currentTarget.getAttribute('name').split('_')
+            index = parseInt(index[1])
+            this.setState({
+                Equation: this.state.apiData[index]["equation"],
+                X: this.state.apiData[index]["initial_x"],
+                ERROR: this.state.apiData[index]["error"],
+                isModalVisible: false
+            })
+    }
+
+    onClickExample = e =>{
+        if(!this.state.hasData){
+            this.getData()
+        }
+        this.setState({isModalVisible: true})
+    }
 
     getEquation = (e) => {
         this.setState({Equation: e.target.value});
@@ -35,14 +70,24 @@ class Onepoint extends React.Component{
     render(){
         return(
             <div>
+                <Modal_Example 
+                    visible = {this.state.isModalVisible}
+                    onOk = {this.onClickOk}
+                    hasData = {this.state.hasData}
+                    apiData = {this.state.apiData}
+                    onClick = {this.onClickInsert}
+                />
                 <div>
                     <div className='set_head'>
                         One-Point Iteration
                     </div>
-                    Equation: <Input className="set_input" onChange={this.getEquation} />
-                    X: <Input className="set_input" onChange={this.getX} />
-                    Error: <Input className="set_input" onChange={this.getERR} />
-                    <Button type="primary" onClick={this.onClickcal} className='set'>Calculate</Button>
+                    Equation: <Input className="set_input" onChange={this.getEquation} value={this.state.Equation} />
+                    X: <Input className="set_input" onChange={this.getX} value={this.state.X} />
+                    Error: <Input className="set_input" onChange={this.getERR} value={this.state.ERROR} />
+                </div>
+                <div className="set_center">
+                    <Button onClick={this.onClickExample} className="set">Example</Button>
+                    <Button type="primary" onClick={this.onClickcal} className="set set_margin_left">Calculate</Button>
                 </div>
                 {this.state.result}
             </div>

@@ -1,18 +1,54 @@
 import React from 'react';
 import { Input } from 'antd';
 import { Button } from 'antd';
-import '../App.css';
+import './root.css';
 
 import { secantcal } from '../Compute';
 
+import apis from '../API/index'
+import Modal_Example from './modal_example'
+
 class Secant extends React.Component{
     state = {
-        Equation: 'x^2-7',
-        X0: '2.0',
-        X1: '2.2',
-        ERROR: '0.000001',
-        result: ''
+        Equation: '',
+        X0: '',
+        X1: '',
+        ERROR: '',
+        result: '',
+        isModalVisible: false,
+        apiData: [],
+        hasData: false
     };
+
+    async getData(){
+        let tempData = null
+        await apis.getRoot().then(res => {tempData = res.data})
+        this.setState({apiData: tempData})
+        this.setState({hasData: true})
+    }
+
+    onClickOk = e =>{
+        this.setState({isModalVisible: false})
+    }
+
+    onClickInsert = e =>{
+        let index = e.currentTarget.getAttribute('name').split('_')
+            index = parseInt(index[1])
+            this.setState({
+                Equation: this.state.apiData[index]["equation"],
+                X0: this.state.apiData[index]["xl"],
+                X1: this.state.apiData[index]["xr"],
+                ERROR: this.state.apiData[index]["error"],
+                isModalVisible: false
+            })
+    }
+
+    onClickExample = e =>{
+        if(!this.state.hasData){
+            this.getData()
+        }
+        this.setState({isModalVisible: true})
+    }
 
     getEquation = (e) => {
         this.setState({Equation: e.target.value });
@@ -42,15 +78,25 @@ class Secant extends React.Component{
     render(){
         return(
             <div>
+                <Modal_Example 
+                    visible = {this.state.isModalVisible}
+                    onOk = {this.onClickOk}
+                    hasData = {this.state.hasData}
+                    apiData = {this.state.apiData}
+                    onClick = {this.onClickInsert}
+                />
                 <div>
                     <div className='set_head'>
                         Secant
                     </div>
-                    Equation: <Input className="set_input" onChange={this.getEquation} />
-                    X0: <Input className="set_input" onChange={this.getX0} />
-                    X1: <Input className="set_input" onChange={this.getX1} />
-                    Error: <Input className="set_input" onChange={this.getERR} />
-                    <Button type="primary" onClick={this.onClickcal} className='set'>Calculate</Button>
+                    Equation: <Input className="set_input" onChange={this.getEquation} value={this.state.Equation} />
+                    X0: <Input className="set_input" onChange={this.getX0} value={this.state.X0} />
+                    X1: <Input className="set_input" onChange={this.getX1} value={this.state.X1} />
+                    Error: <Input className="set_input" onChange={this.getERR} value={this.state.ERROR} />
+                </div>
+                <div className="set_center">
+                    <Button onClick={this.onClickExample} className="set">Example</Button>
+                    <Button type="primary" onClick={this.onClickcal} className="set set_margin_left">Calculate</Button>
                 </div>
                 {this.state.result}
             </div>

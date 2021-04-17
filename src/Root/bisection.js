@@ -1,39 +1,81 @@
 import React from 'react';
-import { Input } from 'antd';
+import { Input ,Row , Col } from 'antd';
 import { Button } from 'antd';
 import { bisectioncal } from '../Compute'
-import '../App.css';
+import './root.css';
+
+import Modal_Example from './modal_example'
+
+import apis from '../API/index'
 
 class Bisection extends React.Component{
     state = {
-        Equation: 'x^4-13',
-        XL: '1.5',
-        XR: '2.0',
-        ERROR: '0.000001',
-        result: ''
+        Equation: '',
+        XL: '',
+        XR: '',
+        ERROR: '',
+        result: '',
+        isModalVisible: false,
+        apiData: [],
+        hasData: false
     };
+
+    async getData(){
+        let tempData = null
+        await apis.getRoot().then(res => {tempData = res.data})
+        this.setState({apiData: tempData})
+        this.setState({hasData: true})
+        /* console.log(tempData); */
+    }
+
+    onClickOk = e =>{
+        this.setState({isModalVisible: false})
+    }
+
+    onClickInsert = e =>{
+/*         console.log(e.currentTarget);
+        console.log(e.target);
+        console.log(e.currentTarget.getAttribute('name'));
+        console.log(e.target.name); */
+        let index = e.currentTarget.getAttribute('name').split('_')
+            index = parseInt(index[1])
+            this.setState({
+                Equation: this.state.apiData[index]["equation"],
+                XL: this.state.apiData[index]["xl"],
+                XR: this.state.apiData[index]["xr"],
+                ERROR: this.state.apiData[index]["error"],
+                isModalVisible: false
+            })
+    }
+
+    onClickExample = e =>{
+        if(!this.state.hasData){
+            this.getData()
+        }
+        this.setState({isModalVisible: true})
+    }
 
     getEquation = (e) => {
         this.setState({
-            Equation: e.target.value,
+            Equation: e.target.value
         });
     };
 
     getXL = (e) => {
         this.setState({
-            XL: e.target.value,
+            XL: e.target.value
         });
     };
 
     getXR = (e) => {
         this.setState({
-            XR: e.target.value,
+            XR: e.target.value
         });
     };
 
     getERR= (e) => {
         this.setState({
-            ERROR: e.target.value,
+            ERROR: e.target.value
         });
     };
 
@@ -48,15 +90,25 @@ class Bisection extends React.Component{
     render(){
         return(
             <div>
+                <Modal_Example
+                    visible = {this.state.isModalVisible}
+                    onOk = {this.onClickOk}
+                    hasData = {this.state.hasData}
+                    apiData = {this.state.apiData}
+                    onClick = {this.onClickInsert}
+                />
                 <div>
                     <div className='set_head'>
                         Bisection
                     </div>
-                    Equation: <Input className="set_input" onChange={this.getEquation} />
-                    XL: <Input className="set_input" onChange={this.getXL} />
-                    XR: <Input className="set_input" onChange={this.getXR} />
-                    Error: <Input className="set_input" onChange={this.getERR} />
-                    <Button type="primary" onClick={this.onClickcal} className="set">Calculate</Button>
+                    Equation: <Input className="set_input" onChange={this.getEquation} value={this.state.Equation} />
+                    XL: <Input className="set_input" onChange={this.getXL} value={this.state.XL} />
+                    XR: <Input className="set_input" onChange={this.getXR} value={this.state.XR} />
+                    Error: <Input className="set_input" onChange={this.getERR} value={this.state.ERROR} />
+                </div>
+                <div className="set_center">
+                    <Button onClick={this.onClickExample} className="set">Example</Button>
+                    <Button type="primary" onClick={this.onClickcal} className="set set_margin_left">Calculate</Button>
                 </div>
                 {this.state.result}
             </div>

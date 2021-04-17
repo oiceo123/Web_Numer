@@ -11,7 +11,7 @@ function checkX(equation){
     return equation
 }
 
-function copyArray(n,matrix1){
+export function copyArray(n,matrix1){
     let arr = []
      for(let i = 0;i < n ; i++){
          arr.push([])

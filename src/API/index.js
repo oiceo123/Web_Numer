@@ -6,10 +6,14 @@ const api = axios.create({
 
 const getRoot = () => api.get('/root_of_eqution')
 const getMatrix = () => api.get('/matrix')
+const getInterpolation = () => api.get('/interpolation')
+const getRegression = () => api.get('/regression')
 
 const apis = {
     getRoot,
-    getMatrix
+    getMatrix,
+    getInterpolation,
+    getRegression
 }
 
 export default apis

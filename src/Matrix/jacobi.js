@@ -3,7 +3,11 @@ import { Row, Col } from 'antd'
 import {Input , Button} from 'antd'
 import MatrixA from './matrixA'
 import MatrixB from './matrixB'
-import { jacobi_cal } from '../Compute'
+import { jacobi_cal , copyArray } from '../Compute'
+
+import Modal_Example_Matrix from './modal_example_matrix'
+
+import apis from '../API/index'
 
 class Jacobi extends React.Component{
     state = {
@@ -11,7 +15,41 @@ class Jacobi extends React.Component{
         matrix_A: [[],[]],
         matrix_B: [],
         ERROR: '',
-        result: ''
+        result: '',
+        isModalVisible: false,
+        apiData: [],
+        hasData: false
+    }
+
+    async getData(){
+        let tempData = null
+        await apis.getMatrix().then(res => {tempData = res.data})
+        this.setState({apiData: tempData})
+        this.setState({hasData: true})
+    }
+
+    onClickOk = e => {
+        this.setState({ isModalVisible: false })
+    }
+
+    onClickInsert = e =>{
+        let index = e.currentTarget.getAttribute('name').split('_')
+            index = parseInt(index[1])
+            this.setState({
+                n: this.state.apiData[index]["n"],
+                matrix_A: copyArray(this.state.apiData[index]["n"], this.state.apiData[index]["matrixA"]),
+                matrix_B: [...this.state.apiData[index]["matrixB"]],
+                /* matrix_B: this.state.apiData[index]["matrixB"], */
+                ERROR: this.state.apiData[index]["error"],
+                isModalVisible: false
+            })
+    }
+
+    onClickExample = e =>{
+        if(!this.state.hasData){
+            this.getData()
+        }
+        this.setState({isModalVisible: true})
     }
 
     ChangeMatrixA = e =>{
@@ -59,6 +97,13 @@ class Jacobi extends React.Component{
     render(){
         return(
             <div>
+                <Modal_Example_Matrix
+                    visible = {this.state.isModalVisible}
+                    onOk = {this.onClickOk}
+                    hasData = {this.state.hasData}
+                    apiData = {this.state.apiData}
+                    onClick = {this.onClickInsert}
+                />
                 <Row>
                     <Col span={24} className="set_head">Jacobi Iteration</Col>
                 </Row>
@@ -85,9 +130,9 @@ class Jacobi extends React.Component{
                         <MatrixB n={this.state.n} onChange={this.ChangeMatrixB} value={this.state.matrix_B}/>
                     </Col>
                 </Row>
-                <div className="set_margin">Error : <Input onChange={this.getERR} style={{width: "200px"}}/></div>
+                <div className="set_margin">Error : <Input onChange={this.getERR} style={{width: "200px"}} value={this.state.ERROR}/></div>
                 <div className="set_center set_margin_div">
-                    <Button className="set_cal_ex">Example</Button>
+                    <Button className="set_cal_ex" onClick={this.onClickExample}>Example</Button>
                     <Button type="primary" className="set_cal_ex" onClick={this.Cal}>Calculate</Button>
                 </div>
                 {this.state.result}

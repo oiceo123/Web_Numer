@@ -3,24 +3,57 @@ import { Row, Col } from 'antd'
 import {Input , Button} from 'antd'
 import MatrixA from './matrixA'
 import MatrixB from './matrixB'
-import {cramercal} from '../Compute'
+import {cramercal , copyArray} from '../Compute'
+
+import Modal_Example_Matrix from './modal_example_matrix'
+
+import apis from '../API/index'
 
 class Cramer extends React.Component{
     state = {
         n: 2,
         matrix_A: [[],[]],
         matrix_B: [],
-        result: ''
+        result: '',
+        isModalVisible: false,
+        apiData: [],
+        hasData: false
+    }
+
+    async getData(){
+        let tempData = null
+        await apis.getMatrix().then(res => {tempData = res.data})
+        this.setState({apiData: tempData})
+        this.setState({hasData: true})
+    }
+
+    onClickOk = e => {
+        this.setState({ isModalVisible: false })
+    }
+
+    onClickInsert = e =>{
+        let index = e.currentTarget.getAttribute('name').split('_')
+            index = parseInt(index[1])
+            this.setState({
+                n: this.state.apiData[index]["n"],
+                matrix_A: copyArray(this.state.apiData[index]["n"], this.state.apiData[index]["matrixA"]),
+                matrix_B: [...this.state.apiData[index]["matrixB"]],
+                /* matrix_B: this.state.apiData[index]["matrixB"], */
+                isModalVisible: false
+            })
+    }
+
+    onClickExample = e =>{
+        if(!this.state.hasData){
+            this.getData()
+        }
+        this.setState({isModalVisible: true})
     }
 
     ChangeMatrixA = e =>{
         let arrA = this.state.matrix_A
         let index = e.target.name.split('_')
         arrA[parseInt(index[1])][parseInt(index[2])] = e.target.value
-/*         console.log(e.target)
-        console.log(e.currentTarget)
-        console.log(e.currentTarget.name)
-        console.log(e.currentTarget.value); */
         this.setState({matrix_A: arrA})
     }
 
@@ -28,7 +61,6 @@ class Cramer extends React.Component{
         let arrB = this.state.matrix_B
         let index = e.target.name.split('_')
         arrB[parseInt(index[1])] = e.target.value
-/*         console.log(e.target.value) */
         this.setState({matrix_B: arrB})
     }
 
@@ -54,6 +86,13 @@ class Cramer extends React.Component{
     render(){
         return(
             <div>
+                <Modal_Example_Matrix
+                    visible = {this.state.isModalVisible}
+                    onOk = {this.onClickOk}
+                    hasData = {this.state.hasData}
+                    apiData = {this.state.apiData}
+                    onClick = {this.onClickInsert}
+                />
                 <Row>
                     <Col span={24} className="set_head">Cramer's Rule</Col>
                 </Row>
@@ -81,7 +120,7 @@ class Cramer extends React.Component{
                     </Col>
                 </Row>
                 <div className="set_center set_margin_div">
-                    <Button className="set_cal_ex">Example</Button>
+                    <Button className="set_cal_ex" onClick={this.onClickExample}>Example</Button>
                     <Button type="primary" className="set_cal_ex" onClick={this.Cal}>Calculate</Button>
                 </div>
                 {this.state.result}

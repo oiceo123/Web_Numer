@@ -3,14 +3,49 @@ import { Row, Col } from 'antd'
 import {Input , Button} from 'antd'
 import TableXY from './table_x_y'
 import './interpolation.css'
-import { spline_cal } from '../Compute'
+import { spline_cal , copyArray } from '../Compute'
+
+import apis from '../API/index'
+import Modal_Example_Interpolation from './modal_example_interpolation'
 
 class Spline extends React.Component{
     state = {
         n: 2,
         xy: [[],[]],
         x: '',
-        result: ''
+        result: '',
+        isModalVisible: false,
+        apiData: [],
+        hasData: false
+    }
+
+    async getData(){
+        let tempData = null
+        await apis.getInterpolation().then(res => {tempData = res.data})
+        this.setState({apiData: tempData})
+        this.setState({hasData: true})
+    }
+
+    onClickOk = e => {
+        this.setState({ isModalVisible: false })
+    }
+
+    onClickInsert = e =>{
+        let index = e.currentTarget.getAttribute('name').split('_')
+            index = parseInt(index[1])
+            this.setState({
+                n: this.state.apiData[index]["n"],
+                xy: copyArray(this.state.apiData[index]["n"], this.state.apiData[index]["matrixA"]),
+                x: this.state.apiData[index]["x"],
+                isModalVisible: false
+            })
+    }
+
+    onClickExample = e =>{
+        if(!this.state.hasData){
+            this.getData()
+        }
+        this.setState({isModalVisible: true})
     }
 
     ChangeXY = e =>{
@@ -46,6 +81,13 @@ class Spline extends React.Component{
     render(){
         return(
             <div>
+                <Modal_Example_Interpolation
+                    visible = {this.state.isModalVisible}
+                    onOk = {this.onClickOk}
+                    hasData = {this.state.hasData}
+                    apiData = {this.state.apiData}
+                    onClick = {this.onClickInsert}
+                />
                 <Row>
                     <Col span={24} className="set_head">Spline interpolation</Col>
                 </Row>
@@ -65,14 +107,14 @@ class Spline extends React.Component{
                         <div className="set_margin_bottom set_center">TableXY</div>
                         <div className="set_display_x">x</div>
                         <div className="set_display_x">f(x)</div>
-                        <TableXY n={this.state.n} onChange={this.ChangeXY}/>
+                        <TableXY n={this.state.n} onChange={this.ChangeXY} value={this.state.xy}/>
                     </Col>
                     <Col className="set_margin_left">
                         <div className="set_margin_bottom">ใส่ค่า X ที่ต้องการ</div>
-                        <div><Input onChange={this.ChangeX} placeholder={"42000"} style={{width: "200px"}}/></div>
+                        <div><Input onChange={this.ChangeX} placeholder={"42000"} style={{width: "200px"}} value={this.state.x}/></div>
                     </Col>
                     <Col>
-                        <div><Button className="set_cal_ex_spline">Example</Button></div>
+                        <div><Button className="set_cal_ex_spline" onClick={this.onClickExample}>Example</Button></div>
                         <div><Button type="primary" className="set_cal_ex_spline" onClick={this.Cal}>Calculate</Button></div>
                     </Col>
                 </Row>

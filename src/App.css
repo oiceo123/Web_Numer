@@ -18,7 +18,14 @@
 }
 
 .set{
+  height: auto;
+  border-radius: 5px;
+  font-size: 20px;
   margin-top: 20px;
+}
+
+.set_margin_left{
+  margin-left: 10px;
 }
 
 .set_result{
@@ -40,4 +47,8 @@
 .set_input{
   margin-bottom: 10px;
   border-radius: 6px;
+}
+
+.set_center{
+  text-align: center;
 }

@@ -878,9 +878,15 @@ export function spline_cal(initialMatrix1,initialX){
 
 }
 
-export function linear_cal(initialMatrix1,initialX){
+export function linear_cal(initialMatrix1,initialX,n){
 
     let arr = initialMatrix1
+
+    for(let i = 0 ; i < n ; i++){
+        for(let j = 0 ; j < 2 ; j ++){
+            arr[i][j] = parseInt(arr[i][j])
+        }
+    }
   
 /*     let arr =  [
         [10, 5],
@@ -913,11 +919,15 @@ export function linear_cal(initialMatrix1,initialX){
 
 }
 
-export function poly_cal(initialMatrix1,initialX){
+export function poly_cal(initialMatrix1,initialX,n){
     
     let arr = initialMatrix1
   
-    
+    for(let i = 0 ; i < n ; i++){
+        for(let j = 0 ; j < 2 ; j ++){
+            arr[i][j] = parseInt(arr[i][j])
+        }
+    }
    
     const result = regression.polynomial(arr);
     let X = initialX
@@ -947,6 +957,13 @@ export function multiple_cal(initialN,initialMatrix1,initialX1,initialX2,initial
     let X3 = initialX3
     // let A = [[1,0,1,4],[0,1,3,-5],[2,4,1,-6],[3,2,2,0],[4,1,5,-1],[2,3,3,-7],[1,6,4,-20]]
     let A = initialMatrix1
+
+    for(let i = 0 ; i < n ; i++){
+        for(let j = 0 ; j < 4 ; j ++){
+            A[i][j] = parseInt(A[i][j])
+        }
+    }
+
       let x1 = []
       let x2 = []
       let x3 = []

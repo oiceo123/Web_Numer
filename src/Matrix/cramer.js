@@ -37,7 +37,7 @@ class Cramer extends React.Component{
             this.setState({
                 n: this.state.apiData[index]["n"],
                 matrix_A: copyArray(this.state.apiData[index]["n"], this.state.apiData[index]["matrixA"]),
-                matrix_B: [...this.state.apiData[index]["matrixB"]],
+                matrix_B: [...this.state.apiData[index]["matrixB"]],    //copy ค่า array ไม่ใช่ copy address ของ array
                 /* matrix_B: this.state.apiData[index]["matrixB"], */
                 isModalVisible: false
             })

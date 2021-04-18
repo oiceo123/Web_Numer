@@ -887,6 +887,7 @@ export function linear_cal(initialMatrix1,initialX,n){
             arr[i][j] = parseInt(arr[i][j])
         }
     }
+
   
 /*     let arr =  [
         [10, 5],
@@ -898,8 +899,8 @@ export function linear_cal(initialMatrix1,initialX,n){
         [60, 35],
         [70, 38], 
         [80, 43]
-    ] */
-    
+    ]
+ */ 
    
     const result = regression.linear(arr);
     let X = initialX

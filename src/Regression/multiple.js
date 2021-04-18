@@ -3,7 +3,10 @@ import { Row, Col } from 'antd'
 import {Input , Button} from 'antd'
 import TableMultiX from './table_multiple_x'
 import '../Interpolation/interpolation.css'
-import { multiple_cal } from '../Compute'
+import { multiple_cal , copyArray } from '../Compute'
+
+import apis from '../API/index'
+import Modal_Example_Interpolation from '../Interpolation/modal_example_interpolation'
 
 class Multiple extends React.Component{
     state = {
@@ -12,13 +15,47 @@ class Multiple extends React.Component{
         x1: '',
         x2: '',
         x3: '',
-        result: ''
+        result: '',
+        isModalVisible: false,
+        apiData: [],
+        hasData: false
+    }
+
+    async getData(){
+        let tempData = null
+        await apis.getRegression().then(res => {tempData = res.data})
+        this.setState({apiData: tempData})
+        this.setState({hasData: true})
+    }
+
+    onClickOk = e => {
+        this.setState({ isModalVisible: false })
+    }
+
+    onClickInsert = e =>{
+        let index = e.currentTarget.getAttribute('name').split('_')
+            index = parseInt(index[1])
+            this.setState({
+                n: this.state.apiData[index]["n"],
+                xy: copyArray(this.state.apiData[index]["n"], this.state.apiData[index]["matrixA"]),
+                x1: this.state.apiData[index]["x1"],
+                x2: this.state.apiData[index]["x2"],
+                x3: this.state.apiData[index]["x3"],
+                isModalVisible: false
+            })
+    }
+
+    onClickExample = e =>{
+        if(!this.state.hasData){
+            this.getData()
+        }
+        this.setState({isModalVisible: true})
     }
 
     ChangeXY = e =>{
         let arrXY = this.state.xy
         let index = e.target.name.split("_")
-        arrXY[parseInt(index[0])][parseInt(index[1])] = parseInt(e.target.value)
+        arrXY[parseInt(index[0])][parseInt(index[1])] = e.target.value
         this.setState({xy: arrXY})
     }
 
@@ -56,6 +93,13 @@ class Multiple extends React.Component{
     render(){
         return(
             <div>
+                <Modal_Example_Interpolation
+                    visible = {this.state.isModalVisible}
+                    onOk = {this.onClickOk}
+                    hasData = {this.state.hasData}
+                    apiData = {this.state.apiData}
+                    onClick = {this.onClickInsert}
+                />
                 <Row>
                     <Col span={24} className="set_head">Multiple Linear Regression</Col>
                 </Row>
@@ -77,23 +121,23 @@ class Multiple extends React.Component{
                         <div className="set_display_x">x2</div>
                         <div className="set_display_x">x3</div>
                         <div className="set_display_x">y</div>
-                        <TableMultiX n={this.state.n} onChange={this.ChangeXY}/>
+                        <TableMultiX n={this.state.n} onChange={this.ChangeXY} value={this.state.xy}/>
                     </Col>
                     <Col className="set_margin_left_regression">
                         <div className="set_margin_bottom">ใส่ค่า X1 ที่ต้องการ</div>
-                        <div><Input onChange={this.ChangeX1} placeholder={"65"} style={{width: "200px"}}/></div>
+                        <div><Input onChange={this.ChangeX1} placeholder={"65"} style={{width: "200px"}} value={this.state.x1}/></div>
                     </Col>
                     <Col className="set_margin_left_regression">
                         <div className="set_margin_bottom">ใส่ค่า X2 ที่ต้องการ</div>
-                        <div><Input onChange={this.ChangeX2} placeholder={"65"} style={{width: "200px"}}/></div>
+                        <div><Input onChange={this.ChangeX2} placeholder={"65"} style={{width: "200px"}} value={this.state.x2}/></div>
                     </Col>
                     <Col className="set_margin_left_regression">
                         <div className="set_margin_bottom">ใส่ค่า X3 ที่ต้องการ</div>
-                        <div><Input onChange={this.ChangeX3} placeholder={"65"} style={{width: "200px"}}/></div>
+                        <div><Input onChange={this.ChangeX3} placeholder={"65"} style={{width: "200px"}} value={this.state.x3}/></div>
                     </Col>
                 </Row>
                 <div className="set_center">
-                    <Button className="set_cal_ex_multi">Example</Button>
+                    <Button className="set_cal_ex_multi" onClick={this.onClickExample}>Example</Button>
                     <Button type="primary" className="set_cal_ex_multi set_margin_left_regression" onClick={this.Cal}>Calculate</Button>
                 </div>
                 <div className="set_margin_top">

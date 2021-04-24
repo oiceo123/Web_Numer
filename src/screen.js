@@ -29,9 +29,12 @@ import Linear from './Regression/linear'
 import Polynomial from './Regression/polynomial'
 import Multiple from './Regression/multiple'
 
+import Swagger from './API/swagger'
+
 import { Route } from "react-router-dom";
 import { HashRouter } from 'react-router-dom';
 import { Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 
 const { SubMenu } = Menu;
 const { Header, Content, Footer, Sider } = Layout;
@@ -83,9 +86,13 @@ class Screen extends React.Component {
                                     <Menu.Item key="17"><Link to='/Polynomial'>Polynomial Regression</Link></Menu.Item>
                                     <Menu.Item key="18"><Link to='/Multiple'>Multiple Linear Regression</Link></Menu.Item>
                                 </SubMenu>
+                                <SubMenu key="sub5" title="Swagger">
+                                    <Menu.Item key="19"><Link to='/Swagger'>Swagger</Link></Menu.Item>
+                                </SubMenu>
                             </Menu>
                         </Sider>
                         <Content style={{ padding: '0 24px', minHeight: 720 }}>
+                            <Redirect exact from="/" to="/Bisection"/>
                             <Route path='/Bisection' component={Bisection}></Route>
                             <Route path='/FalsePosition' component={FalsePosition}></Route>
                             <Route path='/OnePoint' component={OnePoint}></Route>
@@ -104,6 +111,7 @@ class Screen extends React.Component {
                             <Route path='/Linear' component={Linear}></Route>
                             <Route path='/Polynomial' component={Polynomial}></Route>
                             <Route path='/Multiple' component={Multiple}></Route>
+                            <Route path='/Swagger' component={Swagger}></Route>
                         </Content>
                     </Layout>
                 </Content>

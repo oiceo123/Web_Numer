@@ -42,6 +42,13 @@ export function bisectioncal( init_fx,init_xl, init_xr, init_error) {
         xl = xm
     }
 
+    data.push(
+        <div className="set_center_by_app"> 
+            <div className="set_head_result">{"Iteration"}</div>
+            <div className="set_head_result">{"Xm"}</div>
+            <div className="set_head_result">{"Error"}</div>
+        </div>
+        )
     while (math.larger(checkError, error)) {
         newXm = math.divide(math.add(xl, xr), 2)
         checkValue = math.multiply(fx.evaluate({ x: newXm }), fx.evaluate({ x: xr }))
@@ -53,7 +60,13 @@ export function bisectioncal( init_fx,init_xl, init_xr, init_error) {
         }
         checkError = math.abs(math.divide(math.subtract(newXm, xm), newXm))
         xm = newXm
-        data.push(<div className='set_result'>{iteration} {xm.toFixed(15).toString()} {checkError.toFixed(15).toString()}</div>)
+        data.push(
+            <div className="set_center_by_app">
+                <div className="set_result_by_app">{iteration}</div>
+                <div className="set_result_by_app">{xm.toFixed(15).toString()}</div>
+                <div className="set_result_by_app">{checkError.toFixed(15).toString()}</div>
+            </div>
+            )
         iteration = iteration + 1
     }
     return data
@@ -76,6 +89,14 @@ export function falsepositioncal(init_fx,init_xl, init_xr, init_error){
     let oldX1 = 0;
 
     let checkError = 9999
+
+    arr.push(
+        <div className="set_center_by_app"> 
+            <div className="set_head_result">{"Iteration"}</div>
+            <div className="set_head_result">{"X1"}</div>
+            <div className="set_head_result">{"Error"}</div>
+        </div>
+        )
 
     while(checkError > error){
 
@@ -101,7 +122,13 @@ export function falsepositioncal(init_fx,init_xl, init_xr, init_error){
 
        oldX1 = x1
 
-       arr.push(<div className='set_result'>{i} {x1.toFixed(15).toString()} {checkError.toFixed(15).toString()}</div>)
+       arr.push(
+        <div className="set_center_by_app">
+            <div className="set_result_by_app">{i}</div>
+            <div className="set_result_by_app">{x1.toFixed(15).toString()}</div>
+            <div className="set_result_by_app">{checkError.toFixed(15).toString()}</div>
+        </div>
+        )
        i++
        
     }
@@ -126,6 +153,15 @@ export function onepointcal(init_fx , init_x , init_error) {
 
      let checkError = 9999
      let oldcheckError = 9999;
+
+     arr.push(
+        <div className="set_center_by_app"> 
+            <div className="set_head_result">{"Iteration"}</div>
+            <div className="set_head_result">{"X"}</div>
+            <div className="set_head_result">{"Error"}</div>
+        </div>
+        )
+
      while(checkError > error){
 
         
@@ -135,15 +171,26 @@ export function onepointcal(init_fx , init_x , init_error) {
          console.log(checkError);
          console.log(oldcheckError);
          if(checkError > oldcheckError){
-            arr.push(<div>{i} {"ลู่ออก"}</div>)
+            arr.push(
+                <div className="set_center_by_app">
+                    <div className="set_result_by_app">{i}</div>
+                    <div className="set_result_by_app">{"ลู่ออก"}</div>
+                    <div className="set_result_by_app">{checkError.toFixed(15).toString()}</div>
+                </div>
+                )
             break;
         }
           oldcheckError = checkError;
         
          oldX = X
-         
-       
-        arr.push(<div className='set_result'>{i} {X.toFixed(15).toString()} {checkError.toFixed(15).toString()}</div>)
+        
+        arr.push(
+            <div className="set_center_by_app">
+                <div className="set_result_by_app">{i}</div>
+                <div className="set_result_by_app">{X.toFixed(15).toString()}</div>
+                <div className="set_result_by_app">{checkError.toFixed(15).toString()}</div>
+            </div>
+            )
         i++
         
      }
@@ -172,6 +219,15 @@ export function newton_raphsoncal(init_fx , init_x , init_error) {
 
     let checkError = 9999
     let oldcheckError = 9999;
+
+    arr.push(
+        <div className="set_center_by_app"> 
+            <div className="set_head_result">{"Iteration"}</div>
+            <div className="set_head_result">{"X"}</div>
+            <div className="set_head_result">{"Error"}</div>
+        </div>
+        )
+    
     while (checkError > error) {
 
         let fXdiff = fXprime.evaluate({x : X})
@@ -182,14 +238,26 @@ export function newton_raphsoncal(init_fx , init_x , init_error) {
 
         checkError = math.abs((X - oldX) / X);
         if (checkError > oldcheckError) {
-            arr.push(<div>{i} {"ลู่ออก"}</div>)
+            arr.push(
+                <div className="set_center_by_app">
+                    <div className="set_result_by_app">{i}</div>
+                    <div className="set_result_by_app">{"ลู่ออก"}</div>
+                    <div className="set_result_by_app">{checkError.toFixed(15).toString()}</div>
+                </div>
+                )
             break;
         }
         oldcheckError = checkError;
 
         oldX = X
 
-        arr.push(<div className='set_result'>{i} {X.toFixed(15).toString()} {checkError.toFixed(15).toString()}</div>)
+        arr.push(
+            <div className="set_center_by_app">
+                <div className="set_result_by_app">{i}</div>
+                <div className="set_result_by_app">{X.toFixed(15).toString()}</div>
+                <div className="set_result_by_app">{checkError.toFixed(15).toString()}</div>
+            </div>
+            )
         i++
 
     }
@@ -220,6 +288,15 @@ export function secantcal(init_fx , init_x0 , init_x1 , init_error) {
 
     let checkError = 9999
     let oldcheckError = 9999;
+
+    arr.push(
+        <div className="set_center_by_app"> 
+            <div className="set_head_result">{"Iteration"}</div>
+            <div className="set_head_result">{"X"}</div>
+            <div className="set_head_result">{"Error"}</div>
+        </div>
+        )
+       
     while (checkError > error) {
 
     let    x = math.subtract(x1 , math.divide(math.multiply(fx1,math.subtract(x0 , x1) ), math.subtract(fx0 , fx1)));
@@ -234,14 +311,26 @@ export function secantcal(init_fx , init_x0 , init_x1 , init_error) {
 
        
         if (checkError > oldcheckError) {
-            arr.push(<div>{i} {"ลู่ออก"}</div>)
+            arr.push(
+                <div className="set_center_by_app">
+                    <div className="set_result_by_app">{i}</div>
+                    <div className="set_result_by_app">{"ลู่ออก"}</div>
+                    <div className="set_result_by_app">{checkError.toFixed(15).toString()}</div>
+                </div>
+                )
             break;
         }
         oldcheckError = checkError;
 
         oldX = x
 
-        arr.push(<div className='set_result'>{i} {x.toFixed(15).toString()} {checkError.toFixed(15).toString()}</div>)
+        arr.push(
+            <div className="set_center_by_app">
+                <div className="set_result_by_app">{i}</div>
+                <div className="set_result_by_app">{x.toFixed(15).toString()}</div>
+                <div className="set_result_by_app">{checkError.toFixed(15).toString()}</div>
+            </div>
+            )
         i++
 
     }

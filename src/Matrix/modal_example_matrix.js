@@ -3,7 +3,7 @@ import { Row , Col } from 'antd';
 import { Button } from 'antd';
 import { Modal } from 'antd';
 
-class Modal_Example_Matrix extends React.Component{
+class ModalExampleMatrix extends React.Component{
     SetExample(n , matrix){
         let arr_row = []
         for(let i = 0 ; i < n ; i++){
@@ -49,4 +49,4 @@ class Modal_Example_Matrix extends React.Component{
     }
 }
 
-export default Modal_Example_Matrix
+export default ModalExampleMatrix

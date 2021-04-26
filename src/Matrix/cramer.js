@@ -5,7 +5,7 @@ import MatrixA from './matrixA'
 import MatrixB from './matrixB'
 import {cramercal , copyArray} from '../Compute'
 
-import Modal_Example_Matrix from './modal_example_matrix'
+import ModalExampleMatrix from './modal_example_matrix'
 
 import apis from '../API/index'
 
@@ -86,7 +86,7 @@ class Cramer extends React.Component{
     render(){
         return(
             <div>
-                <Modal_Example_Matrix
+                <ModalExampleMatrix
                     visible = {this.state.isModalVisible}
                     onOk = {this.onClickOk}
                     hasData = {this.state.hasData}

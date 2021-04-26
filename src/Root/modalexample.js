@@ -3,7 +3,7 @@ import { Row , Col } from 'antd';
 import { Button } from 'antd';
 import { Modal } from 'antd';
 
-class Modal_Example extends React.Component{
+class ModalExample extends React.Component{
     render() {
         return (
             <div>
@@ -36,4 +36,4 @@ class Modal_Example extends React.Component{
     }
 }
 
-export default Modal_Example
+export default ModalExample

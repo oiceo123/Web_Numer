@@ -6,7 +6,7 @@ import './root.css';
 import { secantcal } from '../Compute';
 
 import apis from '../API/index'
-import Modal_Example from './modal_example'
+import ModalExample from './modalexample'
 
 class Secant extends React.Component{
     state = {
@@ -78,7 +78,7 @@ class Secant extends React.Component{
     render(){
         return(
             <div>
-                <Modal_Example 
+                <ModalExample 
                     visible = {this.state.isModalVisible}
                     onOk = {this.onClickOk}
                     hasData = {this.state.hasData}

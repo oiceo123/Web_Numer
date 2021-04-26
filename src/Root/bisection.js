@@ -4,7 +4,7 @@ import { Button } from 'antd';
 import { bisectioncal } from '../Compute'
 import './root.css';
 
-import Modal_Example from './modal_example'
+import ModalExample from './modalexample'
 
 import apis from '../API/index'
 
@@ -90,7 +90,7 @@ class Bisection extends React.Component{
     render(){
         return(
             <div>
-                <Modal_Example
+                <ModalExample
                     visible = {this.state.isModalVisible}
                     onOk = {this.onClickOk}
                     hasData = {this.state.hasData}

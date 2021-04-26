@@ -5,7 +5,7 @@ import { onepointcal } from '../Compute';
 import './root.css';
 
 import apis from '../API/index'
-import Modal_Example from './modal_example'
+import ModalExample from './modalexample'
 
 class Onepoint extends React.Component{
     state = {
@@ -70,7 +70,7 @@ class Onepoint extends React.Component{
     render(){
         return(
             <div>
-                <Modal_Example 
+                <ModalExample 
                     visible = {this.state.isModalVisible}
                     onOk = {this.onClickOk}
                     hasData = {this.state.hasData}

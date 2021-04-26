@@ -16,6 +16,6 @@ it('should do math', function () {
   expect(add(1, 3)).to.equal(4);
 });
 
-it('fail', function () {
+/* it('fail', function () {
   expect(add(1, 3)).to.equal(10);
-});
+}); */

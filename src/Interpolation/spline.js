@@ -6,7 +6,7 @@ import './interpolation.css'
 import { spline_cal , copyArray } from '../Compute'
 
 import apis from '../API/index'
-import Modal_Example_Interpolation from './modal_example_interpolation'
+import ModalExampleInterpolation from './modal_example_interpolation'
 
 class Spline extends React.Component{
     state = {
@@ -81,7 +81,7 @@ class Spline extends React.Component{
     render(){
         return(
             <div>
-                <Modal_Example_Interpolation
+                <ModalExampleInterpolation
                     visible = {this.state.isModalVisible}
                     onOk = {this.onClickOk}
                     hasData = {this.state.hasData}

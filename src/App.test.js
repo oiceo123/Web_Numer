@@ -7,8 +7,6 @@ function add (a, b) { return a + b; };
 
 test('renders learn react link', () => {
   render(<App />);
-  /* const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument(); */
 });
 
 it('should do math', function () {

@@ -1,3 +1,12 @@
+# Build Docker
+docker build -t web .
+
+# Run Docker
+docker run -it --rm -d -p 3000:3000 web:latest
+
+# Clear Ram Docker
+wsl --shutdown
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input ,Row , Col } from 'antd';
+import { Input } from 'antd';
 import { Button } from 'antd';
 import { bisectioncal } from '../Compute'
 import './root.css';

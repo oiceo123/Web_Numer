@@ -1,5 +1,4 @@
-import { Layout, Menu, Breadcrumb } from 'antd';
-import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons';
+import { Layout, Menu } from 'antd';
 import React from 'react';
 import './App.css';
 
@@ -37,7 +36,7 @@ import { Link } from "react-router-dom";
 import { Redirect } from "react-router-dom";
 
 const { SubMenu } = Menu;
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Content , Sider } = Layout;
 
 class Screen extends React.Component {
     render() {

@@ -6,7 +6,7 @@ import '../Interpolation/interpolation.css'
 import { poly_cal , copyArray } from '../Compute'
 
 import apis from '../API/index'
-import Modal_Example_Interpolation from '../Interpolation/modal_example_interpolation'
+import ModalExampleInterpolation from '../Interpolation/modal_example_interpolation'
 
 class Polynomial extends React.Component{
     state = {
@@ -81,7 +81,7 @@ class Polynomial extends React.Component{
     render(){
         return(
             <div>
-                <Modal_Example_Interpolation
+                <ModalExampleInterpolation
                     visible = {this.state.isModalVisible}
                     onOk = {this.onClickOk}
                     hasData = {this.state.hasData}

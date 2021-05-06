@@ -1,3 +1,4 @@
+import { matrix } from 'mathjs';
 import React from 'react';
 import './App.css'
 
@@ -652,10 +653,45 @@ export function jacobi_cal(n, initialMatrix1, initialMatrix2,initialError) {
 }
 
 export function gauss_seidel_cal(n, initialMatrix1, initialMatrix2,initialError) {
+    
+    //Guass Elimination
+    let matrix3=initialMatrix1
+    let matrix4=initialMatrix2
+    
+    for(let i = 0 ; i < n ; i++){
+        matrix3[i].push(matrix4[i]) 
+    }
+    
+    for(let i = 1;i < n ; i++){
+        for(let j = i ;j < n ; j++){
 
+            let divide = matrix3[i-1][i-1]
+            let multi = matrix3[j][i-1]
+
+            for(let k = i-1 ; k < n+1;k++){
+                matrix3[j][k] = matrix3[j][k] - ((matrix3[i-1][k]/divide)*multi)
+                
+            }
+    
+        }
+         
+    }
+
+    for(let i = 0 ;i < n; i++){
+        matrix4[i] = matrix3[i][n]
+    }
+
+
+    //Gauss Seidel
     let check = true;
-    let matrix1=initialMatrix1
-    let matrix2=initialMatrix2
+    let matrix1=copyArray(n,matrix3)
+    let matrix2=[]
+
+    for(let i = 0 ;i < n; i++){
+        matrix2[i] = matrix3[i][n]
+    }
+
+    console.log(matrix2);
     
     let error = initialError
 
@@ -669,7 +705,6 @@ export function gauss_seidel_cal(n, initialMatrix1, initialMatrix2,initialError)
     let arr_Error = []
     for(let i = 0 ; i < n ;i++){
         resultX.push(0)
-        
     }
     
     while(check){
@@ -693,7 +728,7 @@ export function gauss_seidel_cal(n, initialMatrix1, initialMatrix2,initialError)
             
             
             ansX[i] = sum/matrix1[i][i];
-            
+            console.log(i+ " = " + ansX[i]);
             
           
             arr_Error[i] = math.abs((ansX[i]-resultX[i])/ansX[i])

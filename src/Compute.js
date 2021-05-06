@@ -409,6 +409,11 @@ export function Gauss_Elimination_cal(n, initialMatrix1, initialMatrix2) {
         X[i] = ((matrix1[i][n] - sum)/matrix1[i][i])
         
     }
+
+    for(let i = 0;i < n;i++){
+        matrix2[i] = matrix1[i][n]
+    }
+    
     /* X.map((x,i) => arr.push({key : i , x : 'X'+(i+1) , valuex : x.toFixed(5)})) */
     X.map((x,i) => arr.push(<div>{'X' + (i+1) + ' = '} {x.toFixed(5)}</div>))
 

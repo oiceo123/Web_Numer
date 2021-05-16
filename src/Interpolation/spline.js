@@ -89,7 +89,7 @@ class Spline extends React.Component{
                     onClick = {this.onClickInsert}
                 />
                 <Row>
-                    <Col span={24} className="set_head">Spline interpolation</Col>
+                    <Col span={24} className="set_head">Cubic Spline interpolation</Col>
                 </Row>
                 <Row className="set_margin">
                     <Col>

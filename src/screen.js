@@ -78,7 +78,7 @@ class Screen extends React.Component {
                                 <SubMenu key="sub3" title="Interpolation">
                                     <Menu.Item key="13"><Link to='/Newton_Interpolation'>Newtons's divided-differences</Link></Menu.Item>
                                     <Menu.Item key="14"><Link to='/Lagrange'>Lagrange polynomials</Link></Menu.Item>
-                                    <Menu.Item key="15"><Link to='/Spline'>Spline interpolation</Link></Menu.Item>
+                                    <Menu.Item key="15"><Link to='/Spline'>Cubic Spline interpolation</Link></Menu.Item>
                                 </SubMenu>
                                 <SubMenu key="sub4" title="Regression">
                                     <Menu.Item key="16"><Link to='/Linear'>Linear Regression</Link></Menu.Item>

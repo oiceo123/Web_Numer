@@ -1,12 +1,9 @@
-FROM node:14.15
+FROM node:14
 
-RUN mkdir /usr/src/app
 WORKDIR /usr/src/app/client
 
-ENV PATH /usr/src/app/node_modules/.bin:$PATH
-COPY . /usr/src/app
+COPY . .
 RUN npm install
-RUN npm install react-scripts -g
 
 EXPOSE 3000
 

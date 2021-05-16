@@ -659,7 +659,70 @@ export function jacobi_cal(n, initialMatrix1, initialMatrix2,initialError) {
 
 export function gauss_seidel_cal(n, initialMatrix1, initialMatrix2,initialError) {
     
-    //Guass Elimination
+    let check = true;
+    let matrix1=copyArray(n,initialMatrix1)
+    let matrix2=copyArray(n,initialMatrix2)
+    
+    let error = initialError
+
+  
+    
+    let arr = []
+    
+    let resultX = []
+    let ansX = []
+    
+    let arr_Error = []
+    for(let i = 0 ; i < n ;i++){
+        resultX.push(0)
+        
+    }
+    
+    while(check){
+
+       
+        
+        
+        for(let i = 0;i <  n ;i++){
+            let sum = matrix2[i]
+            for(let j = 0;j < n;j++){
+                if(i != j){
+                    
+                   
+                    sum = (sum- (matrix1[i][j]*resultX[j]))
+                    
+                    
+                    
+                }
+                
+            }
+            
+            
+            ansX[i] = sum/matrix1[i][i];
+            
+            
+          
+            arr_Error[i] = math.abs((ansX[i]-resultX[i])/ansX[i])
+            resultX[i] = ansX[i]
+            console.log(arr_Error[i])
+            
+           
+        }
+        resultX = [...ansX]
+        check = false
+        for(let i = 0 ; i < n ; i++){
+            if(arr_Error[i] > error){
+               check = true
+               break;
+            }
+          
+            
+        }
+       
+    
+    }
+
+/*     //Guass Elimination
     let matrix3=initialMatrix1
     let matrix4=initialMatrix2
     
@@ -754,7 +817,8 @@ export function gauss_seidel_cal(n, initialMatrix1, initialMatrix2,initialError)
         }
        
     
-    }
+    } */
+    
     for(let i = 0 ; i < n ; i++){
         /* arr.push({key : i , x : 'X'+(i+1) , valuex : resultX[i].toFixed(5)}) */
         arr.push(<div>{'X' + (i+1) + ' = '} {resultX[i].toFixed(5)}</div>)

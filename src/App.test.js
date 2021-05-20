@@ -11,7 +11,7 @@ test('renders learn react link', () => {
 
 it('should do math', function () {
   /* expect(console.log(add(1, 3))) */
-  expect(add(1, 3)).to.equal(20);
+  expect(add(1, 3)).to.equal(19);
 });
 
 /* it('fail', function () {

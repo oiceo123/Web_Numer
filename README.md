@@ -4,6 +4,8 @@ docker build -t web .
 # Run Docker
 docker run -it --rm -d -p 3000:3000 web:latest
 
+docker run -d -p 3000:3000 web:v2
+
 # Clear Ram Docker
 wsl --shutdown
 

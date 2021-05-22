@@ -1,7 +1,6 @@
 {
-    "Content-Type": "application/json",
-    
     "form": {
+        "Content-Type": "application/json",
         "name": "oiceo123",
         "email": "icetea@gmail.com"
     },
